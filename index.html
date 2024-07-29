@@ -9,20 +9,39 @@
         <title>语幕-安全中心</title>
         <link rel="shortcut icon" href="https://static.yumus.cn/static/img/anquan.svg">
         <script>
-            if (window.location.hostname !== 'link.novame.org') {
-                window.location = "https://blog.novame.org"
-            }
-            ;var siteweb = window.location.search;
-            if (siteweb.startsWith('?url=')) {
-                siteweb = siteweb.substring(5);
-            } else if (siteweb.startsWith('/aq/?url=')) {
-                siteweb = siteweb.substring(9);
-            }
-siteweb = decodeURIComponent(isBase64(siteweb));
-            var siteweb = window.location.search;
-            siteweb = decodeURIComponent(isBase64(siteweb.substring(siteweb.indexOf("=") + 1, siteweb.length)));
-        </script>
-        <style>
+    if (window.location.hostname !== 'link.novame.org') {
+        window.location = "https://blog.novame.org";
+    }
+
+    function decodeBase64Url(str) {
+        str = str.replace(/-/g, '+').replace(/_/g, '/');
+        while (str.length % 4) {
+            str += '=';
+        }
+        try {
+            return decodeURIComponent(escape(atob(str)));
+        } catch (error) {
+            console.error("Error decoding URL:", error);
+            return null;
+        }
+    }
+
+    var urlParams = new URLSearchParams(window.location.search);
+    var encodedUrl = urlParams.get('url');
+    var siteweb = "https://blog.novame.org"; // 默认 URL
+
+    if (encodedUrl) {
+        var decodedUrl = decodeBase64Url(encodedUrl);
+        if (decodedUrl && (decodedUrl.startsWith('http://') || decodedUrl.startsWith('https://'))) {
+            siteweb = decodedUrl;
+        } else {
+            console.error("Invalid decoded URL:", decodedUrl);
+        }
+    }
+
+    console.log("Original encoded URL:", encodedUrl);
+    console.log("Decoded URL:", siteweb);
+</script>
             a,body,div,h3,html,p,span {
                 margin: 0;
                 padding: 0
