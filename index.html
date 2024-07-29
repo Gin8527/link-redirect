@@ -12,16 +12,13 @@
             if (window.location.hostname !== 'link.novame.org') {
                 window.location = "https://blog.novame.org"
             }
-            ;function isBase64(str) {
-                if (str === "" || str.trim() === "") {
-                    window.location = "https://blog.novame.org"
-                }
-                try {
-                    return atob(str)
-                } catch (err) {
-                    return str
-                }
+            ;var siteweb = window.location.search;
+            if (siteweb.startsWith('?url=')) {
+                siteweb = siteweb.substring(5);
+            } else if (siteweb.startsWith('/aq/?url=')) {
+                siteweb = siteweb.substring(9);
             }
+siteweb = decodeURIComponent(isBase64(siteweb));
             var siteweb = window.location.search;
             siteweb = decodeURIComponent(isBase64(siteweb.substring(siteweb.indexOf("=") + 1, siteweb.length)));
         </script>
